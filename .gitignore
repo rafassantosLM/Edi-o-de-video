@@ -1,0 +1,13 @@
+# Arquivos de vídeo/áudio são pesados demais para o Git (limite de 100 MB por arquivo no GitHub).
+# A estrutura de pastas é versionada; o conteúdo de mídia fica fora.
+Documentos/Estudio-Ads-IA/**/*.mp4
+Documentos/Estudio-Ads-IA/**/*.mov
+Documentos/Estudio-Ads-IA/**/*.mkv
+Documentos/Estudio-Ads-IA/**/*.webm
+Documentos/Estudio-Ads-IA/**/*.avi
+Documentos/Estudio-Ads-IA/**/*.wav
+Documentos/Estudio-Ads-IA/**/*.mp3
+Documentos/Estudio-Ads-IA/**/*.m4a
+.venv/
+node_modules/
+__pycache__/
