@@ -1,6 +1,6 @@
 ---
 name: meueditor
-description: "Diretor criativo e editor de vídeo profissional do Estúdio Ads IA, em português. Ponto de entrada para QUALQUER pedido de anúncio, criativo, UGC, vídeo para Reels/TikTok/Shorts, roteiro de ad, legenda, corte, edição, montagem, exportação ou geração de vídeo/imagem com IA. Use sempre que o usuário falar em anúncio, ad, criativo, campanha, UGC, depoimento, gancho, hook, CTA, legenda, Reels, TikTok, vídeo bruto, B-roll, Higgsfield, Remotion, HyperFrames ou FFmpeg, mesmo sem dizer 'edita' — ela decide o fluxo e chama as skills especializadas certas."
+description: "Diretor criativo e editor de vídeo profissional do Estúdio Ads IA, em português. Ponto de entrada para QUALQUER pedido de anúncio, criativo, UGC, vídeo para Reels/TikTok/Shorts, roteiro de ad, vídeo promocional, imagem de produto, personagem consistente, legenda, corte, edição, montagem, exportação ou geração de vídeo/imagem com IA. Use sempre que o usuário falar em anúncio, ad, criativo, campanha, UGC, depoimento, gancho, hook, CTA, legenda, Reels, TikTok, vídeo bruto, B-roll, Higgsfield, Remotion, HyperFrames ou FFmpeg, mesmo sem dizer 'edita' — ela decide o fluxo e chama as skills especializadas certas (incluindo edicaodinamica para edição dinâmica de talking head)."
 ---
 
 # meueditor — diretor criativo + editor de vídeo
@@ -42,8 +42,10 @@ a etapa 5. Diga ao usuário em qual etapa você está entrando e por quê.
 
 ### 1. Briefing
 Junte, perguntando só o que faltar (agrupe tudo numa pergunta só):
-produto e oferta · público e dor principal · plataforma(s) e formato · duração ·
-material disponível (brutos? fotos do produto? nada?) · tom · CTA · orçamento de créditos.
+produto e oferta · objetivo (venda, lead, reconhecimento) · público e dor principal ·
+plataforma(s) e formato (Reels/TikTok 9:16, feed 4:5 ou 1:1, YouTube 16:9) · duração
+(6, 15, 30 s) · material disponível (brutos? fotos do produto? referência de estilo?) ·
+tem pessoa/ator? · tom · logo e cores da marca · CTA · orçamento de créditos.
 Se o usuário não souber o ângulo, use `estrategia-criativa-dtc` (método de estratégia
 criativa) e/ou `dtc-spy` (anúncios validados de concorrentes) e traga 2–3 ângulos.
 Devolva um **resumo de briefing em 5–8 linhas**. 🚦 Confirme antes de seguir.
@@ -66,15 +68,48 @@ dialeto do modelo escolhido (`higgsfield` → sub-skill do modelo, ex. `higgsfie
 Uma ação e um movimento de câmera por clipe. Mantenha a descrição do personagem
 idêntica entre cenas (ou use Soul ID) para ele não mudar de rosto.
 
+**Realismo sem "cara de IA"** — é o que separa um anúncio que parece gravado de um que
+parece gerado, e o público rola rápido o que parece artificial:
+- luz natural, textura real de pele (poros, pequenas imperfeições), sem retoque de beleza;
+- câmera e lente reais ("shot on iPhone 15", "Sony FX3, 24mm", "35mm film"), enquadramento
+  casual; "anatomically correct hands"; "no text, no logos";
+- sem adjetivos vazios ("stunning", "beautiful", "8k masterpiece");
+- **nenhum texto dentro da imagem gerada**: sai ilegível ou com letras trocadas. Todo texto
+  entra na edição (overlay/legenda).
+
 ### 4. Geração (gasta créditos — regra de custo abaixo)
 Siga `higgsfield-generate` (ou `higgsfield-marketing-studio` para UGC/ads), **mas** com a
-regra de custo deste arquivo, que tem precedência.
+regra de custo deste arquivo, que tem precedência. Gere sempre pela CLI `higgsfield`: o
+conector Higgsfield do claude.ai só lê catálogo, saldo e histórico — ele não gera.
+
+**Imagem-chave primeiro, vídeo depois.** Para cada cena: gere o quadro inicial (barato) →
+mostre ao usuário → 🚦 só anime as aprovadas, com `--start-image <quadro>`. Uma imagem
+reprovada custa centavos de crédito; um vídeo reprovado custa 30–70 vezes mais.
+
+Custos medidos (`higgsfield generate cost`, 2026-11-06 — reconfira antes, mudam):
+
+| Uso | Modelo | Créditos |
+|---|---|---|
+| Quadro de cenário | `soul_location` | 0,12 |
+| Quadro com pessoa | `soul_cinematic` | 0,12 |
+| Mãos, detalhes, produto difícil | `nano_banana_2` | 2 |
+| Vídeo 5 s 9:16 a partir do quadro | `kling3_0 --mode std --sound off` | 7,5 |
+| Idem, mais qualidade | `kling3_0 --mode pro --sound off` | 8,75 |
+| Vídeo 5 s 720p | `seedance_2_0_mini` | 5 |
+| Vídeo 5 s 720p / 1080p | `seedance_2_5` | 35 / 80 — só se o usuário pedir |
+
+Revise cada quadro antes de animar: escuro ou fraco → refaça com `nano_banana_2`; logo de
+marca aparecendo (maçã no notebook etc.) → refaça pedindo "plain unbranded".
 
 ### 5. Montagem
-Edição local com `ffmpeg-skill` (cortar, juntar, 9:16, silêncio, legenda, áudio,
-B-roll). Para animação gráfica (títulos cinéticos, gráficos, cartelas), `hyperframes`
-(ou Remotion se o projeto já for Remotion). Ordem: cor → corte → junção → silêncios →
-enquadramento → legendas/overlays → áudio → loudness.
+Escolha o motor pelo tipo de edição:
+- **Edição simples** (cortes, junção, 9:16, legenda, trilha, reformatar) → `ffmpeg-skill`.
+  Ordem: cor → corte → junção → silêncios → enquadramento → legendas/overlays → áudio → loudness.
+- **Edição dinâmica de talking head** (lettering misto, punch-in, react, ênfase no negativo,
+  J-cut, SFX, b-roll IA — o estilo "Reels de criador") → `edicaodinamica`, que é o manual
+  desse estilo já aprovado em projetos reais e monta no HyperFrames.
+- **Ad com motion design** (texto cinético, layout, gráficos) → `hyperframes`.
+- Remotion só se o usuário pedir ou o projeto já for Remotion.
 
 **Depoimento/UGC gravado → anúncio** é o caso mais comum: siga a receita testada em
 `references/receita-depoimento.md` (comandos prontos, incluindo as posições de gancho,
@@ -128,7 +163,9 @@ Próximo teste sugerido: <qual variação testar a seguir>
 | B-roll sobre a fala | `ffmpeg-skill` | `broll.py` |
 | Música, ducking, limpar voz, -14 LUFS | `ffmpeg-skill` | `audio.py`, `loudness.py` |
 | Exportar e conferir para Reels/TikTok | `ffmpeg-skill` | `render.py --template reels`, `check.py` |
-| Títulos cinéticos, gráficos, motion design | `hyperframes` (+ `hyperframes-registry`) | ~450 blocos prontos |
+| Edição dinâmica estilo Reels de criador, formato react | `edicaodinamica` | lettering, punch-in, J-cut, SFX, b-roll IA |
+| Títulos cinéticos, gráficos, motion design | `hyperframes` (+ `hyperframes-registry`) | ~450 blocos prontos; guias em `hyperframes/references/` (`motion.md`, `captions.md`, `sound.md`, `types/vertical.md`, `types/launch.md`, `types/music.md`) |
+| Pré-visualizar / renderizar HyperFrames | `hyperframes-cli` | |
 | Música, SFX, locução, avatar, color grade | `media-use` | HeyGen pode cobrar: mesma regra de custo |
 | Recriar um anúncio de referência | `reverse-any-video` | só para estudar estrutura, não copiar marca |
 | Vídeo num estilo pronto (explainer etc.) | `style-sampling` | |
@@ -147,7 +184,9 @@ usuário tem créditos limitados e quer decidir onde gastar. Antes de qualquer g
    parâmetros>` (ou `higgsfield generate cost workflow <nome> ...`) para **cada** job.
    Estimar não gasta créditos, mas arquivos locais passados como referência (foto do
    produto, rosto) são **enviados** à Higgsfield já na estimativa — se forem sensíveis,
-   avise antes.
+   avise antes. Vale para lotes também: 1 imagem de 0,12 é barata, 40 não necessariamente.
+   Se o usuário quiser fluidez ("pode fazer sem me perguntar"), combine um **teto** ("até 20
+   créditos neste projeto"), estime antes de cada lote e pare ao chegar no teto.
 2. Mostre uma tabela: `cena | modelo | duração/resolução | créditos`, o **total** e o
    **saldo depois**. Estime sempre **2–4 opções** (o padrão de qualidade e alternativas
    mais baratas — liste modelos com `higgsfield model list`), porque a diferença é enorme:

@@ -17,10 +17,14 @@ Scripts prontos (copiar para `<projeto>/scripts/` e adaptar): pasta `scripts/` d
 
 ## 0. Antes de começar
 
-1. Recarregar o PATH no PowerShell: `$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')`.
-2. Criar o projeto em `~/Documents/Estudio-Ads-IA/geracoes/<nome>-<data>/` com `src/ work/ scripts/ broll/ edicao/`. Copiar os arquivos do usuário para `src/` (nunca editar os originais).
-3. Perguntar só o que faltar, numa mensagem: referência (link/arquivo), formato (padrão vertical 9:16), **com ou sem trilha** (às vezes ele coloca a música), se tem vídeos reais de clientes/prova social, e se pode gastar créditos sem confirmar. Se ele disser "pode fazer sem confirmação", vá até a entrega e informe no fim os créditos gastos.
-4. Ler as skills que a etapa pedir (`hyperframes`, `hyperframes-core`, `media-use`, `higgsfield`, `higgsfield-generate`, `cinematic-video-prompt`) — esta skill não substitui as regras delas.
+> **Adaptado para o Estúdio Ads IA (nuvem Linux):** esta skill é chamada pela `meueditor`
+> para edição dinâmica. As regras de custo, área segura e entrega da `meueditor` valem aqui.
+> Comandos marcados "(Windows)" só se aplicam rodando no PC do usuário com PowerShell.
+
+1. (Windows) Recarregar o PATH no PowerShell: `$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')`. Na nuvem Linux não precisa.
+2. Criar o projeto em `Documentos/Estudio-Ads-IA/geracoes/<nome>-<data>/` (na raiz do repositório; no Windows, `~/Documents/Estudio-Ads-IA/...`) com `src/ work/ scripts/ broll/ edicao/`. Copiar os arquivos do usuário de `brutos/` para `src/` (nunca editar os originais).
+3. Perguntar só o que faltar, numa mensagem: referência (link/arquivo), formato (padrão vertical 9:16), **com ou sem trilha** (às vezes ele coloca a música), se tem vídeos reais de clientes/prova social, e **teto de créditos** para o projeto. Siga a regra de custo da `meueditor`: estimar antes de cada lote (`python3 scripts/gen_broll.py cost ...`), mostrar total e saldo, e gerar sem perguntar de novo só dentro do teto combinado. Informe no fim os créditos gastos.
+4. Ler as skills que a etapa pedir (`hyperframes` — contrato da composição e guias em `hyperframes/references/`: `captions.md`, `motion.md`, `sound.md`, `types/vertical.md`; `hyperframes-cli`; `media-use`; `higgsfield`; `higgsfield-generate`; `cinematic-video-prompt`) — esta skill não substitui as regras delas. Versões antigas desta skill citavam `hyperframes-core`, `general-video` e `hyperframes-audio`: hoje esse conteúdo está dentro de `hyperframes`.
 
 ## 1. Estudar a referência
 
@@ -69,7 +73,7 @@ Scripts prontos (copiar para `<projeto>/scripts/` e adaptar): pasta `scripts/` d
 - Alternar close (2.0x) e médio (1.45x) em todo corte; push-in lento (+0.1 em ~2–5 s) dentro dos trechos; punch rápido (+0.2 em 0.12 s) na palavra-chave.
 - Nunca deixar o enquadramento mostrar letreiro cortado no topo.
 
-**Transições**: light leak laranja/creme (do registry `organic-light-leak-overlay`, embutido como 3 camadas com `mix-blend-mode: screen`), pico de ~0,14 s em cada entrada/saída de b-roll e nos cortes secos; flash branco curto no drop (estilo Reels de criador); vídeo encolhendo para virar "tela" com etiqueta "EDITADO COM IA".
+**Transições**: light leak laranja/creme (bloco `light-leak` do `hyperframes-registry` — antes chamado `organic-light-leak-overlay` —, embutido como 3 camadas com `mix-blend-mode: screen`), pico de ~0,14 s em cada entrada/saída de b-roll e nos cortes secos; flash branco curto no drop (estilo Reels de criador); vídeo encolhendo para virar "tela" com etiqueta "EDITADO COM IA".
 
 **Ênfase no negativo** (pedido explícito): b-roll em **P&B** (feito no ffmpeg: `hue=s=0,eq=contrast=1.18:brightness=-0.03,vignette`), palavra **vermelha com glitch**, **tremor de câmera** (keyframes x/y/rotation em 0,5 s no wrapper `#shake` com `scale 1.03` de folga), **impacto grave** + glitch no som.
 
@@ -87,7 +91,9 @@ Scripts prontos (copiar para `<projeto>/scripts/` e adaptar): pasta `scripts/` d
 - Ler `higgsfield` (+ `skills/higgsfield-prompt/SKILL.md`, `skills/shared/negative-constraints.md`), `higgsfield-generate` e `cinematic-video-prompt` antes de escrever prompts.
 - Fluxo: **frame inicial → revisar → animar**. Prompts em inglês (MCSLA), sem palavras vazias ("stunning"), câmera/lente/luz reais ("Shot on Sony FX3, 24mm"), "natural skin texture", "anatomically correct hands", "no text, no logos". Vídeo i2v: descrever só o que se move + 1 movimento de câmera.
 - Modelos custo-benefício (medido): frame com `soul_location` (cenários) ou `soul_cinematic` (pessoas) a 0,12 crédito; `nano_banana_2` (= Nano Banana Pro, 2 créditos) para mãos, detalhes e cenas de estrago; vídeo com `kling3_0 --mode pro --sound off --duration 5 --aspect_ratio 9:16` a 8,75 créditos. Seedance 2.5 custa 35–60 por clipe — só se o usuário pedir.
-- `scripts/gen_broll.py images|videos [ids]` gera em paralelo a partir de `scripts/broll.json` e baixa para `broll/` (lê com `utf-8-sig` porque o PowerShell grava BOM). Jobs às vezes falham no servidor → rodar de novo só aquele id.
+- **Antes de usar, troque o `scripts/broll.json`**: o que vem na skill é o roteiro de exemplo do projeto de imóveis (aéreas da Flórida etc.). Escreva as cenas do projeto atual.
+- `scripts/gen_broll.py cost images|videos <ids>|--all` estima o custo de cada cena e o total **sem gerar** — rode sempre antes e mostre ao usuário com o saldo (`higgsfield account status`).
+- `scripts/gen_broll.py images|videos <ids>|--all` gera em paralelo (até 4 de cada vez) e baixa para `broll/`. Sem ids nem `--all` ele recusa, para nunca disparar o lote inteiro por engano. Lê o JSON com `utf-8-sig` porque o PowerShell grava BOM. Jobs às vezes falham no servidor → rodar de novo só aquele id.
 - Revisar cada frame: cena fraca/escura → refazer com Nano Banana Pro; logo de marca (ex.: maçã no notebook) → refazer pedindo "plain unbranded lid".
 - Padronizar: `scale+crop 1080x1920, fps=30, -g 30`, leve grade quente; P&B nos negativos.
 - Cenas que funcionaram para imóveis: aérea de bairro com palmeiras/lago no fim de tarde, aérea de bairro nobre à beira do lago, casa moderna com gimbal avançando, mãos guardando dólares num envelope, casal planejando no notebook, homem à noite no notebook (P&B), casa abandonada com manchas (P&B), goteira no balde (P&B).
@@ -95,17 +101,17 @@ Scripts prontos (copiar para `<projeto>/scripts/` e adaptar): pasta `scripts/` d
 
 ## 7. Montagem no HyperFrames
 
-- `npx hyperframes init edicao --non-interactive --example=blank --skill=general-video`; ler `hyperframes-core`.
+- `npx hyperframes init edicao --non-interactive --resolution portrait`; ler `hyperframes` (contrato) e `hyperframes/references/types/vertical.md`.
 - Para vídeo longo, **gerar o index.html por dados** com `scripts/gen_comp.py` (listas: FULL b-roll, REACT, CLIENTES, LEAKS, SHAKES, CAM, LT lettering, CAPS legendas, PILLS, SFX). Ele grava também `work/sfx_cues.json`; `scripts/mix.py` mixa voz + SFX (pico de cada efeito no tempo da deixa, riser terminando no corte) e normaliza (−14 a −15 LUFS; sem trilha deixa −15 para o usuário somar a música). Para Reels curtos com trilha: `scripts/mix_audio.py`.
 - SFX leves (biblioteca do `media-use`): whoosh/whoosh-short nas transições (−16 a −22 dB), click-soft/pop nas palavras (−18 a −22), impact-bass + glitch-1 nos negativos (−11 a −17), key-press como tique do relógio/contador/digitação, notification no "aluguel recebido"/DM, sparkle no "+12", pop no botão.
 - Marcar sobreposições intencionais: `data-layout-allow-overlap` (cópias do glitch), `data-layout-allow-overflow`/`-occlusion` (luz, wrapper de câmera, texto atrás da cabeça).
 - Ciclo: `npx hyperframes check` (0 erros) → `npx hyperframes snapshot --at ...` em ~30 tempos → revisar as folhas (texto sobre a boca? letreiro cortado? elemento sobrando no react? acento cortado? palavra quebrando linha? pílula vazia?) → corrigir → repetir.
-- Arquivos editados pelo PowerShell: usar Python/ferramenta de edição, nunca `Set-Content` sem `-Encoding` (quebra acentos).
+- (Windows) Arquivos editados pelo PowerShell: usar Python/ferramenta de edição, nunca `Set-Content` sem `-Encoding` (quebra acentos).
 
 ## 8. Render e entrega
 
 - **Vídeos de iPhone podem ser HDR (HLG, bt2020)** → o render vira HDR sozinho (lento e cor errada no Instagram). Checar `color_transfer` com ffprobe; converter com `zscale=tin=arib-std-b67:min=bt2020nc:pin=bt2020:rin=tv:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p` e marcar bt709. Renderizar com `--sdr`.
-- Render que cai com exit −1073740791 (0xC0000409) = memória do Node: usar `$env:NODE_OPTIONS="--max-old-space-size=12288"` e `--video-frame-format auto` (JPG) em vez de PNG.
+- Render que cai por falta de memória do Node (no Windows aparece como exit −1073740791 / 0xC0000409): usar `NODE_OPTIONS=--max-old-space-size=12288` antes do comando (no Windows: `$env:NODE_OPTIONS="--max-old-space-size=12288"`) e `--video-frame-format auto` (JPG) em vez de PNG.
 - Comando: `npx hyperframes render --sdr --quality delivery --fps 30 --video-frame-format auto --workers 3 -o <projeto>/<nome>-FINAL.mp4` em segundo plano, log em arquivo.
 - Conferir e informar: ffprobe (1080x1920, 30 fps, duração, H.264, SDR bt709), `ebur128` (LUFS/pico), `freezedetect` (nada travado), `lagcheck.py` mix × final (0 ms), folha de quadros do arquivo final.
 - Entregar com `SendUserFile`, resumo curto em português: o que foi feito, números, créditos gastos e onde ficou salvo. Oferecer versão sem trilha quando houver música.
