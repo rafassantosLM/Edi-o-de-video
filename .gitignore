@@ -11,3 +11,5 @@ Documentos/Estudio-Ads-IA/**/*.m4a
 .venv/
 node_modules/
 __pycache__/
+# Arquivos intermediários de montagem (refeitos pelos scripts do projeto)
+Documentos/Estudio-Ads-IA/geracoes/**/work/
