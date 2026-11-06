@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: anuncio-depoimento-reels
+expected_outcome: |
+  Responde em português e segue o fluxo da meueditor: briefing resumido, roteiro com gancho,
+  montagem local com ffmpeg-skill e entrega no formato padrão. O vídeo final é 9:16 1080x1920,
+  entre 15 e 30 s, sem o silêncio inicial nem as pausas, com texto de gancho visível nos
+  primeiros 2 s, legendas grandes dentro da área segura e CTA no final; passa no check de
+  Reels/TikTok e fica perto de -14 LUFS. O bruto não é alterado e o resultado vai para
+  geracoes/<projeto>/ com o nome padrão. A cena de produto por IA não é gerada: o custo é
+  estimado com o comando de custo da Higgsfield, mostrado com saldo, e a geração espera aprovação.
+context:
+  scaffold_script: place-files.sh
