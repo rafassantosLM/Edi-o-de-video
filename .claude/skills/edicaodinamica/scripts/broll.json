@@ -1,0 +1,100 @@
+﻿[
+    {
+        "id":  "b1_aerea_eua",
+        "uso":  "gancho - \u0027Estados Unidos\u0027",
+        "image_model":  "soul_location",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16"
+                       ],
+        "image_prompt":  "Aerial drone photograph looking down at a Central Florida suburban neighborhood at golden hour: curving streets lined with two-story stucco homes with gray tile roofs, tall palm trees casting long shadows, backyard swimming pools glinting in the low sun, a calm lake with a wooden dock at the edge of the neighborhood. Warm amber sunlight from the left, deep blue sky with a few thin clouds. Shot on DJI Mavic 3 Cine, 24mm, sharp focus throughout, deep depth of field, true-to-life colors, real estate aerial photography.",
+        "video_prompt":  "Starting from the provided image as the first frame. The drone glides slowly forward over the rooftops while tilting gently down; palm fronds sway lightly in the breeze, a white car drives slowly along the curving street, sunlight glints on the lake surface. Smooth, fluid aerial motion, consistent golden-hour lighting, photorealistic footage."
+    },
+    {
+        "id":  "b2_bairro_lago",
+        "uso":  "\u0027boa localização\u0027 (react)",
+        "image_model":  "soul_location",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16"
+                       ],
+        "image_prompt":  "Aerial drone photograph of an upscale Orlando-area lakefront neighborhood in late afternoon: modern two-story homes with screened pool enclosures along the shore of a large blue lake, mature oak trees and royal palms, a tidy shopping plaza and a school building a few blocks away, wide clean avenues. Soft warm sunlight, clear sky. Shot on DJI Inspire 3, 35mm, sharp focus throughout, deep depth of field, natural colors, luxury real estate aerial photography.",
+        "video_prompt":  "Starting from the provided image as the first frame. The drone performs a slow arc to the right around the lakefront homes, small ripples move across the lake, palm fronds sway gently. Smooth, fluid aerial motion, consistent lighting, photorealistic footage."
+    },
+    {
+        "id":  "b3_notebook_noite",
+        "uso":  "\u0027quando você olha somente o preço\u0027 (P\u0026B)",
+        "image_model":  "soul_cinematic",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16",
+                           "--quality",
+                           "2k"
+                       ],
+        "image_prompt":  "Medium close-up of a man in his late thirties sitting at a kitchen table at night, leaning toward an open laptop with his chin resting on his hand, his face lit only by the cool glow of the screen, the laptop screen facing away from the camera, dark room behind him with one small warm lamp far in the background. Natural skin texture with visible pores and light stubble, plain gray t-shirt. Shot on ARRI Alexa Mini, 50mm, subject in sharp focus, background falling into soft bokeh, low-key lighting, realistic documentary look.",
+        "video_prompt":  "Starting from the provided image as the first frame. His eyes move slowly across the screen as he scrolls with one finger on the trackpad, then he exhales and slowly rubs his forehead with his fingertips. Camera: slow dolly in toward his face. Anatomically correct hands, smooth natural motion, consistent lighting."
+    },
+    {
+        "id":  "b4_casa_abandonada",
+        "uso":  "\u0027deixando de ser uma oportunidade\u0027 (P\u0026B, negativo)",
+        "image_model":  "nano_banana_2",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16",
+                           "--resolution",
+                           "2k"
+                       ],
+        "image_prompt":  "Photo of the empty living room of an abandoned single-story Florida house: large patches of peeling white paint on the walls, dark brown water stains spreading across a sagging ceiling, an old stained beige carpet with debris, a broken horizontal window blind hanging crooked and letting in shafts of pale daylight, dust particles hanging in the light beams, no furniture. Overcast muted light, desaturated colors. Shot on Sony FX6, 24mm, sharp focus throughout, deep depth of field, documentary photography, no text.",
+        "video_prompt":  "Starting from the provided image as the first frame. Dust drifts slowly through the light beams and one loose blind slat sways slightly. Camera: slow dolly in across the empty room. Smooth motion, consistent lighting, photorealistic footage."
+    },
+    {
+        "id":  "b5_dolares_envelope",
+        "uso":  "\u0027juntar mais dinheiro\u0027",
+        "image_model":  "nano_banana_2",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16",
+                           "--resolution",
+                           "2k"
+                       ],
+        "image_prompt":  "Close-up photo of a man\u0027s hands at a wooden kitchen table sliding a small stack of US one-hundred-dollar bills into a plain brown paper envelope, a white ceramic coffee mug beside it, warm morning window light from the right side. Anatomically correct hands with five fingers each, natural skin texture with visible knuckle creases, plain blue shirt cuffs. Shot on Canon C70, 85mm, hands and bills in sharp focus, background falling into soft bokeh, realistic commercial photography, no text, no logos.",
+        "video_prompt":  "Starting from the provided image as the first frame. The hands slide the bills fully into the envelope and press the flap closed with the thumb. Camera: static, locked-off. Anatomically correct hands, smooth natural motion, consistent warm lighting."
+    },
+    {
+        "id":  "b6_casa_moderna",
+        "uso":  "\u0027imóvel melhor localizado\u0027",
+        "image_model":  "soul_location",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16"
+                       ],
+        "image_prompt":  "Front view of a modern two-story Florida home at golden hour: white stucco walls with dark wood accents, large windows glowing warm from inside, manicured green lawn, two tall palm trees, paver driveway, quiet residential street. The low sun sits behind the house and rims the palm fronds with warm light, soft blue sky. Shot on Sony FX3, 24mm, sharp focus throughout, deep depth of field, high-end real estate cinematography.",
+        "video_prompt":  "Starting from the provided image as the first frame. Camera: smooth gimbal push forward toward the front door; palm fronds sway gently and warm sunlight flickers through the leaves. Smooth, fluid motion, consistent golden-hour lighting, photorealistic footage."
+    },
+    {
+        "id":  "b7_casal_planejando",
+        "uso":  "\u0027se você está pensando em comprar um imóvel\u0027",
+        "image_model":  "soul_cinematic",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16",
+                           "--quality",
+                           "2k"
+                       ],
+        "image_prompt":  "Medium shot of a couple in their late thirties sitting side by side on a light gray sofa in a bright living room, both looking at a plain matte-gray laptop with a blank unbranded lid on the coffee table; the woman points at the screen while the man leans in with interest, the laptop screen facing away from the camera. Soft daylight from a large window on the left, casual clothes in neutral tones. Natural skin texture, relaxed real expressions. Shot on ARRI Alexa Mini, 35mm, subjects in sharp focus, background falling into soft bokeh, realistic lifestyle photography.",
+        "video_prompt":  "Starting from the provided image as the first frame. The woman points at the screen and turns her head toward the man, who nods slowly and smiles. Camera: slow arc to the left. Anatomically correct hands, consistent appearance, smooth natural motion."
+    },
+    {
+        "id":  "b8_goteira",
+        "uso":  "\u0027o barato pode sair caro\u0027 (P\u0026B, negativo)",
+        "image_model":  "nano_banana_2",
+        "image_args":  [
+                           "--aspect_ratio",
+                           "9:16",
+                           "--resolution",
+                           "2k"
+                       ],
+        "image_prompt":  "Photo inside a run-down rental house: a cracked ceiling with a large dark water stain and bubbling, peeling plaster, a single drop of water falling from the crack into a dented metal bucket half full of water on a worn wooden floor, a wet dark ring on the floor around the bucket, a stained wall behind. Dim gray daylight from a side window. Shot on Sony FX6, 35mm, sharp focus throughout, documentary photography, muted colors, no text.",
+        "video_prompt":  "Starting from the provided image as the first frame. Water drips from the ceiling crack into the bucket in a steady rhythm and small ripples spread across the water inside the bucket. Camera: slow tilt down from the ceiling crack to the bucket. Consistent lighting, realistic water physics, photorealistic footage."
+    }
+]
